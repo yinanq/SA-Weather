@@ -8,43 +8,46 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var isMars = false
+    
     var body: some View {
         ZStack {
-            BackgroundView()
+            BackgroundView(isMars: $isMars)
             VStack {
-                CityTextView(city: "Vancouver, BC")
+                CityTextView(city: isMars ? "Mars" : "Vancouver, BC")
                 Spacer()
-                MainWeatherView(weatherIcon: "cloud.rain.fill", temperature: 9)
+                MainWeatherView(weatherIcon: isMars ? "sun.max.fill" : "cloud.rain.fill", temperature: isMars ? -42 : 9)
                 Spacer()
                 HStack {
                     WeatherDayView(dayOfWeek: "MON",
-                                   weatherIcon: "sun.max.fill",
-                                   temperature: 24)
+                                   weatherIcon: isMars ? "sun.max.fill" : "sun.max.fill",
+                                   temperature: isMars ? -36 : 24)
                     Spacer()
                     WeatherDayView(dayOfWeek: "TUE",
-                                   weatherIcon: "cloud.drizzle.fill",
-                                   temperature: 12)
+                                   weatherIcon: isMars ? "sun.max.fill" : "cloud.drizzle.fill",
+                                   temperature: isMars ? -63 : 12)
                     Spacer()
                     WeatherDayView(dayOfWeek: "WED",
-                                   weatherIcon: "cloud.rain.fill",
-                                   temperature: 6)
+                                   weatherIcon: isMars ? "sun.max.fill" : "cloud.rain.fill",
+                                   temperature: isMars ? -17 : 6)
                     Spacer()
                     WeatherDayView(dayOfWeek: "THE",
-                                   weatherIcon: "cloud.sun.rain.fill",
-                                   temperature: 15)
+                                   weatherIcon: isMars ? "sun.max.fill" : "cloud.sun.rain.fill",
+                                   temperature: isMars ? -23 : 15)
                     Spacer()
                     WeatherDayView(dayOfWeek: "FRI",
-                                   weatherIcon: "cloud.rain.fill",
-                                   temperature: 9)
+                                   weatherIcon: isMars ? "sun.max.fill" : "cloud.rain.fill",
+                                   temperature: isMars ? -27 : 9)
                 }
                 .padding(.leading, 40)
                 .padding(.trailing, 40)
                 Spacer()
                 Button {
-                    print("button tapped")
+                    isMars.toggle()
                 } label: {
-                    WeatherButtonLabel(text: "Change City",
-                                       textColor: Color("main"),
+                    WeatherButtonLabel(text: "Change Planet",
+                                       textColor: isMars ? Color.orange : Color("main"),
                                        backgroundColor: Color.white)
                 }
             }
@@ -59,8 +62,10 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct BackgroundView: View {
+//    var isMars: Bool
+    @Binding var isMars: Bool
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: [Color("gradientTop"), Color("gradientBottom")]),
+        LinearGradient(gradient: Gradient(colors: [isMars ? Color.red : Color("gradientTop"), isMars ? Color.orange : Color("gradientBottom")]),
                        startPoint: .topLeading,
                        endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
