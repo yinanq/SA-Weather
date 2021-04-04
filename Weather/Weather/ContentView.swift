@@ -52,6 +52,9 @@ struct ContentView: View {
                 }
             }
         }
+//        .onAppear {
+//            print(1)
+//        }
     }
 }
 
